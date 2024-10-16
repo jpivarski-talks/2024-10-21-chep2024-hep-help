@@ -150,7 +150,7 @@ Similarly, IRIS-HEP Slack, Coffea Users in CMS Mattermost, and some GitHub Discu
 \Large
 \vspace{1 cm}
 
-Can a Large Language Model (LLM) be a first responder, either to answer questions or to send people to a forum where their can be answered or has already been answered?
+Can a Large Language Model (LLM) be a first responder, either to answer questions or to send people to a forum where their question can be answered or has already been answered?
 
 \vspace{0.5 cm}
 \begin{center}
@@ -158,7 +158,7 @@ Can a Large Language Model (LLM) be a first responder, either to answer question
 \end{center}
 \end{frame}
 
-\begin{frame}{It's a popular topic at this year's CHEP!}
+\begin{frame}{LLMs for HEP is a popular topic this year!}
 \small
 \vspace{0.25 cm}
 \begin{columns}
@@ -174,5 +174,109 @@ general & \textcolor{blue}{\href{https://indico.cern.ch/event/1338689/contributi
 \end{tabular}
 \end{columns}
 \end{frame}
+
+\begin{frame}{One more, not at CHEP: chATLAS}
+\vspace{0.2 cm}
+\begin{center}
+\fbox{\includegraphics[width=0.94\linewidth]{PLOTS/chATLAS-40-percent-page18.pdf}}
+\end{center}
+\end{frame}
+
+\begin{frame}{I started this March: {\bf \url{https://hep-help.org}}}
+\vspace{0.25 cm}
+\begin{center}
+\fbox{\includegraphics[width=0.87\linewidth]{PLOTS/hep-help-screenshot.png}}
+\end{center}
+\end{frame}
+
+\begin{frame}{I'm sold on the user-interface choice}
+\large
+\vspace{0.35 cm}
+GitHub Actions bot, wired into GitHub Discussions/Issues\ldots
+
+\vspace{0.2 cm}
+\begin{itemize}\setlength{\itemsep}{0.2 cm}
+\item is free of charge and already has a nice UI (and CLI),
+\item handles authentication and most of us already have accounts,
+\item is not ephemeral/private: answered questions stay up for others to see,
+\item can be commented on by humans (e.g.\ ``Careful! The above is wrong!''),
+\item symmetrically cross-reference any GitHub issues/PRs they link to,
+\item is implemented in GitHub Actions, which can run any code,
+\item which can securely access secrets, such as an OpenAI API key.
+\end{itemize}
+
+\vspace{0.35 cm}
+\uncover<2->{The response can take up to a minute, but compare that to a human responder.}
+
+\vspace{0.35 cm}
+\uncover<3->{Discussions or Issues? Discussions are threaded (3 levels) with up/down votes,}
+
+\uncover<3->{\phantom{Discussions or Issues? }but Issues can ask users to fill out a structured form.}
+\end{frame}
+
+\begin{frame}[fragile]{How it works: using a CI workflow to respond to Discussion posts}
+\scriptsize
+\vspace{-0.1 cm}
+\begin{columns}[t]
+\column{0.45\linewidth}
+\begin{minted}{yaml}
+name: answer-query
+on:
+  discussion:
+    types: [created, edited]
+
+jobs:
+  answer-query:
+    name: answer-query
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install \
+                 -r requirements.txt
+\end{minted}
+
+\column{0.65\linewidth}
+\begin{minted}{yaml}
+- name: Get vector store
+  shell: bash
+  run: |
+    export TAG=`git describe --abbrev=0 --tags`
+    wget https://github.com/hep-help/hooray/ \
+         releases/download/$TAG/hep-help-db.zip
+    unzip hep-help-db.zip
+- name: Produce response
+  shell: bash
+  env:
+    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    BODY: ${{ github.event.discussion.body }}
+  run: |
+    echo "$BODY" | python answer-query.py > ./text.md
+- name: Post response
+  shell: bash
+  env:
+    APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+    DISCUSSION_ID: ${{ github.event.discussion.node_id }}
+  run: |
+    echo "$APP_PRIVATE_KEY" > ./key.pem
+    python comment-on-discussion.py
+\end{minted}
+\end{columns}
+\end{frame}
+
+\begin{frame}{}
+
+
+
+\end{frame}
+
 
 \end{document}
