@@ -32,6 +32,7 @@
 \xdefinecolor{darkred}{rgb}{0.7,0,0}
 \definecolor{darkgreen}{rgb}{0,0.6,0}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
+\xdefinecolor{lightblue}{rgb}{0.75,0.75,1}
 
 \title[2024-10-21-chep2024-hep-help]{\vspace{0.5 cm} \\ HEP-Help: a first-stop helpline for particle physics software \\ \vspace{-0.75 cm}\hspace{7 cm}\uncover<2->{\includegraphics[height=2 cm]{PLOTS/in-progress.png}}\vspace{-1.75 cm}}
 \author{Jim Pivarski}
@@ -121,7 +122,7 @@
 \begin{frame}{\mbox{ }}
 \large
 \vspace{0.5 cm}
-Similarly, IRIS-HEP Slack, Coffea Users in CMS Mattermost, and some GitHub Discussions are very active.
+Similarly, IRIS-HEP Slack, Coffea Users in CMS Mattermost, and some GitHub Discussions are very active. But the right forum can be hard to find, especially for problems that span multiple software packages.
 
 \vspace{1 cm}
 \uncover<2->{Moving active communities is hard, and runs the risk of dispersing them instead.}
@@ -175,24 +176,24 @@ general & \textcolor{blue}{\href{https://indico.cern.ch/event/1338689/contributi
 \end{columns}
 \end{frame}
 
-\begin{frame}{One more, not at CHEP: chATLAS}
+\begin{frame}{One more, not here at CHEP: ``chATLAS''}
 \vspace{0.2 cm}
 \begin{center}
-\fbox{\includegraphics[width=0.94\linewidth]{PLOTS/chATLAS-40-percent-page18.pdf}}
+\only<1>{\fbox{\includegraphics[width=0.94\linewidth]{PLOTS/chATLAS-40-percent-page18.pdf}}}\only<2>{\fbox{\includegraphics[width=0.94\linewidth]{PLOTS/chATLAS-40-percent-page18-2.pdf}}}\only<3>{\fbox{\includegraphics[width=0.94\linewidth]{PLOTS/chATLAS-40-percent-page18-3.pdf}}}
 \end{center}
 \end{frame}
 
-\begin{frame}{I started this March: {\bf \url{https://hep-help.org}}}
+\begin{frame}{I started this March: \textcolor{lightblue}{\bf \url{https://hep-help.org}}}
 \vspace{0.25 cm}
 \begin{center}
 \fbox{\includegraphics[width=0.87\linewidth]{PLOTS/hep-help-screenshot.png}}
 \end{center}
 \end{frame}
 
-\begin{frame}{I'm sold on the user-interface choice}
+\begin{frame}{I'm sold on GitHub as the user-interface}
 \large
 \vspace{0.35 cm}
-GitHub Actions bot, wired into GitHub Discussions/Issues\ldots
+A GitHub Actions bot, wired into GitHub Discussions/Issues\ldots
 
 \vspace{0.2 cm}
 \begin{itemize}\setlength{\itemsep}{0.2 cm}
@@ -206,10 +207,10 @@ GitHub Actions bot, wired into GitHub Discussions/Issues\ldots
 \end{itemize}
 
 \vspace{0.35 cm}
-\uncover<2->{The response can take up to a minute, but compare that to a human responder.}
+\uncover<2->{The response can take up to a minute (much faster than a human responder).}
 
 \vspace{0.35 cm}
-\uncover<3->{Discussions or Issues? Discussions are threaded (3 levels) with up/down votes,}
+\uncover<3->{\textcolor{darkblue}{Discussions or Issues?} Discussions are threaded (3 levels) with up/down votes,}
 
 \uncover<3->{\phantom{Discussions or Issues? }but Issues can ask users to fill out a structured form.}
 \end{frame}
@@ -351,7 +352,7 @@ Use the LLM in a limited way: have it rate and describe how relevant each match 
 
 \large
 \vspace{0.25 cm}
-The human query is a question, and a question is a better semantic match to a question than an answer to that question.
+The human query is a question, and a question is a better semantic match to a question than a document that would answer that question.
 
 \vspace{0.25 cm}
 Use the LLM in a limited way: have it generate possible questions about the source documents.
@@ -381,7 +382,7 @@ Note: the LLM cost for \#3 scales with the number of documents, but
 \begin{frame}{How much wiggle room is there between signal and background?}
 \large
 \vspace{0.5 cm}
-Consecutive Slack messages (IRIS-HEP Slack) are a large sample of question-answer pairs. Non-consecutive ones are ``background.''
+Consecutive Slack messages (IRIS-HEP Slack) are a large sample of question-answer pairs: the ``signal.'' Non-consecutive ones are ``background.''
 
 \vspace{0.25 cm}
 \includegraphics[width=\linewidth]{PLOTS/slack-similarity-in-and-out-of-threads.pdf}
@@ -403,7 +404,7 @@ Consecutive Slack messages (IRIS-HEP Slack) are a large sample of question-answe
 \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Could we even use them to fine-tune ChatGPT?}
+\begin{frame}[fragile]{Could we even use them to {\it fine-tune} ChatGPT?}
 \vspace{0.35 cm}
 \begin{columns}
 \column{0.5\linewidth}
@@ -419,8 +420,7 @@ Loss versus training step is not promising:
 \uncover<2->{But whereas untuned ChatGPT always attempts non-vectorized answers to user questions, fine-tuned always attempts vectorized (though usually wrong) ones.}
 
 \column{0.55\linewidth}
-\begin{uncoverenv}<3->
-Untuned ChatGPT:
+\begin{uncoverenv}<3->Untuned ChatGPT:
 
 \tiny
 \vspace{0.1 cm}
@@ -507,13 +507,13 @@ I made a tool to conceal the author of an answer and ``graded'' answers on a sca
 \begin{itemize}\setlength{\itemsep}{0.5 cm}
 \item<1-> We do need a ``funnel'' to guide physicists toward help with software, especially for questions that cross package boundaries.
 \item<2-> A GitHub Actions bot is a good interface/technology for that.
-\item<3-> In principle, LLMs can help a lot!
+\item<3-> In principle, LLMs can help, too!
 \vspace{0.25 cm}
 \begin{itemize}\Large\setlength{\itemsep}{0.25 cm}
 \item \Large It's a popular topic.
-\item \Large But how they'll help is unclear.
+\item \Large But how this will work is unclear.
 \end{itemize}
-\item<4-> This is essentially a search problem, so understanding similarity in the embedding space is crucial.
+\item<4-> It's essentially a search problem, so understanding and optimizing similarity in the embedding space is crucial.
 \end{itemize}
 \end{frame}
 
