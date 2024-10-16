@@ -22,6 +22,7 @@
 \usepackage{minted}
 \usepackage[thicklines]{cancel}
 \usepackage{fancyvrb}
+\usepackage{colortbl}
 
 \xdefinecolor{dianablue}{rgb}{0.18,0.24,0.31}
 \xdefinecolor{darkblue}{rgb}{0.1,0.1,0.7}
@@ -38,6 +39,10 @@
 \date{October 21, 2024}
 
 \usetikzlibrary{shapes.callouts}
+
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 
 \begin{document}
 
@@ -153,6 +158,21 @@ Can a Large Language Model (LLM) be a first responder, either to answer question
 \end{center}
 \end{frame}
 
-
+\begin{frame}{It's a popular topic at this year's CHEP!}
+\small
+\vspace{0.25 cm}
+\begin{columns}
+\column{1.1\linewidth}\renewcommand{\arraystretch}{1.04}
+\begin{tabular}{C{0.15\linewidth} L{0.34\linewidth} L{0.18\linewidth} C{0.07\linewidth} C{0.12\linewidth}}\arrayrulecolor{gray}
+RAG/search & \textcolor{blue}{\href{https://indico.cern.ch/event/1338689/contributions/6011147/}{Leveraging Language Models to Navigate Conference Abstracts: An Open-Source Approach}} & Gordon Watts & talk & next talk, here \\\hline
+RAG/search & \textcolor{blue}{\href{https://indico.cern.ch/event/1338689/contributions/6010661/}{AccGPT: A CERN Knowledge Retrieval Chatbot}} & Florian Rehm, Juan Guijarro, Sofia Vallecorsa, Verena Kain & talk & 20 minutes ago, rm 2A \\\hline
+RAG/search & \textcolor{blue}{\href{https://indico.cern.ch/event/1338689/contributions/6010735/}{Docu-Bot: AI assisted user support}} & Jiri Chudoba & poster & maybe still up, Lobby \\\hline
+code review & \textcolor{blue}{\href{https://indico.cern.ch/event/1338689/contributions/6010676/}{Leveraging Language Models for Enhanced Code Review in Particle Physics Software Development}} & Alexey Rybalchenko & poster & Tue 3pm, rm 4 \\\hline
+domain-specific chat-bot & \textcolor{blue}{\href{https://indico.cern.ch/event/1338689/contributions/6010731/}{Xiwu: A basic flexible and learnable LLM for High Energy Physics}} & Ke Li, Siyang Chen, Yiyu Zhang, Zhengde Zhang & poster & Tue 3pm, rm 4 \\\hline
+domain-specific chat-bot & \textcolor{blue}{\href{https://indico.cern.ch/event/1338689/contributions/6010732/}{Boost physics study at HEP experiments with Dr. Sai}} & {\it same authors} + Yipu Liao & poster & Tue 3pm, rm 4 \\\hline
+general & \textcolor{blue}{\href{https://indico.cern.ch/event/1338689/contributions/6066662/}{Large Language Models in Physics}} & Sarah Heim & plenary & Tue 11am \\
+\end{tabular}
+\end{columns}
+\end{frame}
 
 \end{document}
