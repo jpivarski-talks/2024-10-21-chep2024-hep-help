@@ -214,7 +214,7 @@ GitHub Actions bot, wired into GitHub Discussions/Issues\ldots
 \uncover<3->{\phantom{Discussions or Issues? }but Issues can ask users to fill out a structured form.}
 \end{frame}
 
-\begin{frame}[fragile]{How it works: using a CI workflow to respond to Discussion posts}
+\begin{frame}[fragile]{How it works: using a CI workflow to respond to user posts}
 \scriptsize
 \vspace{-0.1 cm}
 \begin{columns}[t]
@@ -272,11 +272,44 @@ jobs:
 \end{columns}
 \end{frame}
 
+\begin{frame}{What remains to be done}
+\Large
+\vspace{1 cm}
+
+\setlength\fboxrule{1 pt}
+
+\fcolorbox{white}{white}{\parbox{\textwidth}{\begin{itemize}
+\item Gather documents from many sources: GitHub/GitLab, Slack, (public?) Mattermost, Gitter, StackOverflow, Discord\ldots
+\end{itemize}}}
+
+\vspace{0.3 cm}
+\begin{onlyenv}<1>
+\fcolorbox{white}{white}{\parbox{\textwidth}{\begin{itemize}
+\item Understand how LLM technology works to improve responses
+\end{itemize}}}
+\end{onlyenv}\begin{onlyenv}<2>
+\fbox{\parbox{\textwidth}{\begin{itemize}
+\item Understand how LLM technology works to improve responses
+\end{itemize}}}
+\end{onlyenv}
+
+\fcolorbox{white}{white}{\parbox{\textwidth}{\begin{itemize}
+\item Streamline the user interface
+\end{itemize}}}
+
+\vspace{0.4 cm}
+\fcolorbox{white}{white}{\parbox{\textwidth}{\begin{itemize}
+\item Advertise widely
+\end{itemize}}}
+
+\vspace{-2.5 cm}
+\hfill \uncover<2>{(the rest of this talk)}
+\vspace{2.5 cm}
+\end{frame}
+
 \begin{frame}{}
 
 
-
 \end{frame}
-
 
 \end{document}
