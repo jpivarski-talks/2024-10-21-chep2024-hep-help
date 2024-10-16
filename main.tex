@@ -279,7 +279,7 @@ jobs:
 \setlength\fboxrule{1 pt}
 
 \fcolorbox{white}{white}{\parbox{\textwidth}{\begin{itemize}
-\item Gather documents from many sources: GitHub/GitLab, Slack, (public?) Mattermost, Gitter, StackOverflow, Discord\ldots
+\item Gather documents from many sources: GitHub/GitLab, Slack, (public?) Mattermost, Gitter, StackOverflow, Discord, documentation websites, HSF-Training tutorial materials\ldots
 \end{itemize}}}
 
 \vspace{0.3 cm}
@@ -388,7 +388,7 @@ Consecutive Slack messages (IRIS-HEP Slack) are a large sample of question-answe
 \end{frame}
 
 \begin{frame}{Cleaner set of question-answer pairs: StackOverflow}
-\vspace{0.25 cm}
+\vspace{0.35 cm}
 \begin{columns}
 \column{0.76\linewidth}
 \fbox{\includegraphics[width=\linewidth]{PLOTS/stackoverflow-screenshot.png}}
@@ -398,12 +398,123 @@ Consecutive Slack messages (IRIS-HEP Slack) are a large sample of question-answe
 \raggedright \uncover<2->{Eliminating out-of-date answers, we have 85 question-answer pairs.}
 
 \vspace{1 cm}
-\raggedright \uncover<3->{(Almost all of them were written by me.)}
+\raggedright \uncover<3->{(Almost all the answers were written by me.)}
 \end{minipage}
 \end{columns}
 \end{frame}
 
+\begin{frame}[fragile]{Could we even use them to fine-tune ChatGPT?}
+\vspace{0.35 cm}
+\begin{columns}
+\column{0.5\linewidth}
+50\%, 25\%, 25\% training, validation, test
 
+\vspace{0.25 cm}
+Loss versus training step is not promising:
 
+\vspace{0.25 cm}
+\includegraphics[width=\linewidth]{PLOTS/stackoverflow-finetune-loss.pdf}
+
+\vspace{0.25 cm}
+\uncover<2->{But whereas untuned ChatGPT always attempts non-vectorized answers to user questions, fine-tuned always attempts vectorized (though usually wrong) ones.}
+
+\column{0.55\linewidth}
+\begin{uncoverenv}<3->
+Untuned ChatGPT:
+
+\tiny
+\vspace{0.1 cm}
+\begin{minted}{python}
+# Loop over each sublist and replace the elements
+for i, (sublist, mod, mod_idx) in enumerate(zip(
+    A_final, A_mod, A_mod_idx
+)):
+    for idx, value in zip(mod_idx, mod):
+        sublist[idx] = value
+
+# Convert the modified list back to an Awkward Array
+A_final = ak.Array(A_final)
+\end{minted}
+\end{uncoverenv}
+
+\vspace{0.25 cm}
+\begin{uncoverenv}<4->
+\normalsize
+Fine-tuned ChatGPT: {\scriptsize (\mintinline{python}{ak.with_item} does not exist)}
+
+\tiny
+\vspace{0.1 cm}
+\begin{minted}{python}
+>>> import awkward as ak
+>>> A = ak.Array([[21.1, 22.1, 43.1], [73.1, 30.4], [43.1]])
+>>> A_mod_idx = ak.Array([[0, 2], [1], []])
+>>> mask = ak.is_none(ak.values_astype(
+...     ak.local_index(A, axis=1)[:, :, None] == A_mod_idx,
+...     bool,
+... ), axis=2)
+>>> mask
+<Array [[False, True, ...], ..., [True]] type='3 * var * bool'>
+
+# Now we can use ak.with_item to put the new values into the
+# places where the mask is False:
+
+>>> ak.with_item(A, A_mod, mask)
+<Array [[1.1, 22.1, 2.1], ..., [43.1]] type='3 * var * float64'>
+\end{minted}
+\end{uncoverenv}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Blind test: human vs untuned vs fine-tuned}
+\large
+\vspace{0.5 cm}
+
+I made a tool to conceal the author of an answer and ``graded'' answers on a scale from 0 to 10. (I don't {\it consciously} remember writing these answers.)
+
+\vspace{0.35 cm}
+\begin{center}
+\uncover<2->{\includegraphics[width=0.5\linewidth]{PLOTS/human-vs-untuned-vs-finetuned.pdf}}
+\end{center}
+
+\vspace{0.25 cm}
+\uncover<3->{It takes 5--10 minutes to ``grade'' an answer; this can't be done in bulk.}
+\end{frame}
+
+\begin{frame}{What about using the LLM as a question-generator?}
+\large
+\vspace{0.25 cm}
+\begin{center}
+\hspace{2.5 cm}\includegraphics[width=0.8\linewidth]{PLOTS/explain-rag-4.pdf}
+\end{center}
+
+\vspace{-0.35 cm}
+\begin{columns}
+\column{0.5\linewidth}
+\uncover<2->{\includegraphics[width=\linewidth]{PLOTS/generated-questions-are-a-better-match-than-real-answers.pdf}}
+
+\column{0.5\linewidth}
+
+\uncover<2->{The similarity of a human query and an LLM-generated question is slightly better than a human query and the human source documents (classic RAG).}
+
+\vspace{0.5 cm}
+\uncover<3->{(Is it enough to matter?)}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Inconclusive conclusions}
+\Large
+\vspace{0.3 cm}
+\begin{itemize}\setlength{\itemsep}{0.5 cm}
+\item<1-> We do need a ``funnel'' to guide physicists toward help with software, especially for questions that cross package boundaries.
+\item<2-> A GitHub Actions bot is a good interface/technology for that.
+\item<3-> In principle, LLMs can help a lot!
+\vspace{0.25 cm}
+\begin{itemize}\Large\setlength{\itemsep}{0.25 cm}
+\item \Large It's a popular topic.
+\item \Large But how they'll help is unclear.
+\end{itemize}
+\item<4-> This is essentially a search problem, so understanding similarity in the embedding space is crucial.
+\end{itemize}
+\end{frame}
 
 \end{document}
