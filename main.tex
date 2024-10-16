@@ -369,4 +369,30 @@ Note: the LLM cost for \#3 scales with the number of documents, but
 \end{onlyenv}
 \end{frame}
 
+\begin{frame}{Without a good embedding, we won't find the right documents}
+\vspace{0.5 cm}
+\includegraphics[width=\linewidth]{PLOTS/experiments-with-similarity.pdf}
+
+\vspace{-0.75 cm}
+\textcolor{darkblue}{So this is the most important thing to understand.}
+\vspace{0.75 cm}
+\end{frame}
+
+\begin{frame}{How much wiggle room is there between signal and background?}
+\large
+\vspace{0.5 cm}
+Consecutive Slack messages (IRIS-HEP Slack) are a large sample of question-answer pairs. Non-consecutive ones are ``background.''
+
+\vspace{0.25 cm}
+\includegraphics[width=\linewidth]{PLOTS/slack-similarity-in-and-out-of-threads.pdf}
+\end{frame}
+
+\begin{frame}{Cleaner set of question-answer pairs: StackOverflow}
+\vspace{0.25 cm}
+\begin{center}
+\fbox{\includegraphics[width=0.76\linewidth]{PLOTS/stackoverflow-screenshot.png}}
+\end{center}
+\end{frame}
+
+
 \end{document}
