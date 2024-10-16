@@ -307,9 +307,66 @@ jobs:
 \vspace{2.5 cm}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Possible workflow \only<1>{\#1}\only<2>{\#2}\only<3>{\#3 (what hep-help currently does)}\only<4>{\#4}\only<5>{\#5}}
+\Large
+\vspace{0.5 cm}
+\begin{columns}
+\column{1.1\linewidth}
+\only<1>{\includegraphics[width=\linewidth]{PLOTS/explain-rag-1.pdf}}\only<2>{\includegraphics[width=\linewidth]{PLOTS/explain-rag-2.pdf}}\only<3>{\includegraphics[width=\linewidth]{PLOTS/explain-rag-3.pdf}}\only<4>{\includegraphics[width=\linewidth]{PLOTS/explain-rag-4.pdf}}\only<5>{\includegraphics[width=\linewidth]{PLOTS/explain-rag-5.pdf}}
+\end{columns}
 
+\vspace{0.5 cm}
+\begin{onlyenv}<1>
+\textcolor{darkblue}{Retrieval-Augmented Generation (RAG):}
 
+\large
+\vspace{0.25 cm}
+An LLM is better able to answer questions if it has relevant information in its (limited-size) context window.
+
+\vspace{0.25 cm}
+Get information by passing documents and query through the same neural network; in that embedding space, similar vectors are semantically similar text.
+
+\vspace{10 cm}
+\end{onlyenv}\begin{onlyenv}<2>
+\textcolor{darkblue}{Just semantic search:}
+
+\large
+\vspace{0.25 cm}
+Maybe we don't need the LLM at all! If we can match a query to semantically similar documents, perhaps we should just recommend these documents.
+
+\vspace{10 cm}
+\end{onlyenv}\begin{onlyenv}<3>
+\textcolor{darkblue}{Semantic search with re-ranking:}
+
+\large
+\vspace{0.25 cm}
+Some embedding space matches aren't actually related to the query, even though they touch on the same concepts.
+
+\vspace{0.25 cm}
+Use the LLM in a limited way: have it rate and describe how relevant each match is to the human query.
+
+\vspace{10 cm}
+\end{onlyenv}\begin{onlyenv}<4>
+\textcolor{darkblue}{Better targets in embedding space:}
+
+\large
+\vspace{0.25 cm}
+The human query is a question, and a question is a better semantic match to a question than an answer to that question.
+
+\vspace{0.25 cm}
+Use the LLM in a limited way: have it generate possible questions about the source documents.
+
+\vspace{10 cm}
+\end{onlyenv}\begin{onlyenv}<5>
+\textcolor{darkblue}{Combine \#3 and \#4:}
+
+\large
+\vspace{0.25 cm}
+Note: the LLM cost for \#3 scales with the number of documents, but
+
+\phantom{Note: the LLM cost for }\#4 scales with the number of human queries.
+\vspace{10 cm}
+\end{onlyenv}
 \end{frame}
 
 \end{document}
